@@ -1,11 +1,10 @@
 ﻿#pragma once  //Tranh dung do thu vien khi goi chong file len nhau
 #include <stdio.h>
 #include <conio.h>
-#include<ctime> // Thu vien ho tro thoi gian thuc
+#include<ctime> 
 #include "windows.h" 
-// Lay toa do x cua con tro tai thoi diem hien tai
 #define KEY_NONE	-1
-
+// Lay toa do x cua con tro tai thoi diem hien tai
 int whereX()
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -85,22 +84,13 @@ struct TOADO {
 	int x;
 	int y;
 };
-struct  Record
-{
-	char data;
-	int key;
-
-};
-int u = 0;
-Record MANG[100];
 typedef struct TOADO toaDo;
-
 // Nhap phim bat ky de tiep tuc
 void NhapPhimBatKy() {
 	int y = 0;
 	gotoXY(0, y);
 	cout << "Nhap phim bat ky de tiep tuc!              ";
-	while (y < 7) {
+	while (y < 14) {
 		y++;
 		gotoXY(0, y);
 		cout << "                                      ";
@@ -110,7 +100,7 @@ void NhapPhimBatKy() {
 // Xoa MeNu
 void XoaMenu() {
 	int y = 0;
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 14; i++) {
 		gotoXY(0, y);
 		cout << "                                   ";
 		y++;
@@ -131,7 +121,7 @@ void input(int a[], int& n) {
 	for (int i = 0; i < n; i++) {
 		int r = rand() % (100 + 100 + 1) - 100;
 		a[i] = r;
-		cout << "Phan tu a[" << i << "] : ";
+		cout << "Phan tu thu " << i + 1 << " la : ";
 		cin >> a[i];
 
 	}
@@ -160,7 +150,7 @@ void veHinhVuong(int x, int y) {
 // Ve hinh co so
 void VeSo(int x, int y, int k) {
 	veHinhVuong(x, y);
-	gotoXY(x + 1, y + 1);
+	gotoXY(x + 2, y + 1);
 	SetColor(9);
 	cout << k;
 	SetColor(7);
@@ -176,50 +166,6 @@ void VeMang(int a[], toaDo b[], int n) {
 		b[i].y = y;
 		x += 8;
 	}
-}
-// Ve duong sap xep
-void VeDuong(int a[], toaDo b[], int n, int value1, int value2) {
-	int pos1, pos2;
-	for (int i = 0; i < n; i++) {
-		if (a[i] == value1)
-			pos1 = i;
-		else if (a[i] == value2)
-			pos2 = i;
-	}
-	int x1, x2, y1, y2;
-	if (pos1 < pos2) {
-		x1 = b[pos1].x + 3;
-		y1 = b[pos1].y + 4;
-		x2 = b[pos2].x + 3;
-		y2 = b[pos2].y + 4;
-	}
-	else {
-		x1 = b[pos2].x + 3;
-		y1 = b[pos2].y + 3;
-		x2 = b[pos1].x + 3;
-		y2 = b[pos1].y + 3;
-	}
-
-
-
-	// ve duong thang giong xuong
-	for (int i = 0; i < 2; i++) {
-		gotoXY(x1, y1);
-		cout << "*";
-		y1++;
-		gotoXY(x2, y2);
-		cout << "*";
-		y2++;
-		Sleep(50);
-	}
-	while (x1 <= x2) {
-		gotoXY(x1, y2);
-		cout << "*";
-		x1++;
-		Sleep(20);
-
-	}
-	x1--;
 }
 
 // Xoa hinh
@@ -251,7 +197,6 @@ void XoaMang(int a[], toaDo b[], int n) {
 		Sleep(1100);
 	}
 }
-
 // Di xuong
 void diXuong(int x1, int y1, int x2, int y2, int limitBottom, int value1, int value2) {
 	while (y1 < limitBottom) {
@@ -273,13 +218,11 @@ void diXuong(int x1, int y1, int x2, int y2, int limitBottom, int value1, int va
 		Sleep(speed);
 	}
 }
-
 // Xoa chu
 void XoaChu(int x, int y) {
 	gotoXY(x, y);
 	cout << "                            ";
 }
-
 // Mo phong sap xep
 void MPSapXep(toaDo b[], int pos1, int pos2, int value1, int value2) {
 	if (value1 == value2)
@@ -342,16 +285,6 @@ void MPSapXep(toaDo b[], int pos1, int pos2, int value1, int value2) {
 	}
 	diXuong(x1, y1, x2, y2, limitBottom, value1, value2);
 }
-// Sap xep  interchange sort
-void Interchange_Sort(int a[], int n, toaDo b[]) {
-	int i, j;
-	for (i = 0; i < n - 1; i++) {
-		for (j = i + 1; j < n; j++) {
-			MPSapXep(b, i, j, a[i], a[j]);
-			swap(a[i], a[j]);
-		}
-	}
-}
 
 // SELECTION SORT
 void selectionSort(int arr[], toaDo b[], int n)
@@ -372,7 +305,7 @@ void selectionSort(int arr[], toaDo b[], int n)
 		max = vt;
 		arr[max] = temp;
 		//Doi cho phan tu LON NHAT voi phan tu CUOI CUNG
-		MPSapXep(b, i, max, arr[max], arr[i]);
+		MPSapXep(b, max, i, arr[max], arr[i]);
 		swap(arr[i], arr[max]);
 	}
 	gotoXY(50, 2);
@@ -423,8 +356,8 @@ void quickSort(int a[], toaDo b[], int l, int r) {
 	gotoXY(50, 2);
 	SetColor(13);
 	cout << "SAP XEP HOAN TAT!";
-	SetColor(7);
-	
+
+
 }
 
 //COMPARISON SORT
@@ -475,10 +408,6 @@ void shellSort(int a[], toaDo b[], int n) {
 	cout << "SAP XEP HOAN TAT!";
 	SetColor(7);
 }
-
-
-
-
 // ve duong bao 
 void VeDuongBao(int x1, int y1, int x2, int y2) {
 	int up = y1 - 1;
@@ -505,32 +434,18 @@ void VeDuongBao(int x1, int y1, int x2, int y2) {
 	}
 	SetColor(7);
 }
-// merge sort
-void MergeSort(int a[], int n)
-{
-	int left = 0;
-	int right = n;
-	if (left < right)
-	{
-		int mid = (left + right) / 2;
-		MergeSort(a, n);
-		MergeSort(a, n);
-
-	}
-}
 
 // Menu
 void MeNu(int a[], toaDo b[], int n) {
 	int choose;
 	while (1) {
 		gotoXY(0, 0);
-		cout << "______________MENU____________\n";
+		cout << "______________MENU_____________\n";
 		cout << " 1. Nhap mang\n";
 		cout << " 2. Selection Sort\n";
 		cout << " 3. Quick Sort\n";
-		cout << " 4. Merge Sort\n";
+		cout << " 4. Comparision Couting Sort\n";
 		cout << " 5. Shell Sort\n";
-		cout << " 6. Comparision Couting Sort\n";
 		cout << " 0. Thoat\n";
 		cout << "_______________________________\n";
 		cout << "Ban chon: ";
@@ -552,20 +467,12 @@ void MeNu(int a[], toaDo b[], int n) {
 			NhapPhimBatKy();
 			break;
 		case 4:
-			MergeSort(a, n);
-			for (int i = 0; i < n; i++)
-			{
-				cout << a[i];
-			}
+			Comparison(a, b, n);
 			NhapPhimBatKy();
-			break;
 		case 5:
 			shellSort(a, b, n);
 			NhapPhimBatKy();
 			break;
-		case 6:
-			Comparison(a, b, n);
-			NhapPhimBatKy();
 		case 0:
 			system("cls");
 			gotoXY(30, 30);
@@ -579,10 +486,9 @@ void MeNu(int a[], toaDo b[], int n) {
 
 int main() {
 	srand(time(NULL));
-
 	int a[100], n = 0; // thuat toan seclectionsort
 	toaDo b[100]; // danh sach luu tru toado selection va quicksort
 	MeNu(a, b, n);
-	toaDo c[100]; // danh sach luu tru toa do merge sorT
 
 }
+
